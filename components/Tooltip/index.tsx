@@ -1,8 +1,7 @@
 import React, { RefObject, Component } from 'react';
 import {connect} from 'react-redux';
 import { getColorFunc } from "../../helpers/config";
-import { select, Selection } from 'd3-selection';
-import store, { wrapper } from "../../redux/store";
+import { select } from 'd3-selection';
 import * as d3 from 'd3';
 
 
@@ -15,9 +14,6 @@ interface TooltipProps {
 class Tooltip extends Component<TooltipProps> {
     tooltipRef: RefObject<HTMLDivElement>;
     Tooltip: any;
-    static getInitialProps = wrapper.getInitialPageProps(store => async () => {
-        console.log("getInitialProps", store);
-    });
 
     constructor(props) {
         super(props);
@@ -32,7 +28,6 @@ class Tooltip extends Component<TooltipProps> {
     };
 
     data(d): any {
-        console.log(d);
         let title = `<div class="title">${d.parent.parent.data.name} - ${d.parent.data.name}</div>`,
             genItemline = (d, title?: string | boolean) => {
                 let descriptionField = d.data.description || "",

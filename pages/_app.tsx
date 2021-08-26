@@ -1,9 +1,5 @@
 import React from "react";
 import App, {AppInitialProps} from 'next/app';
-// import { Provider } from 'react-redux';
-// import { wrapper } from '../redux/store';
-// import { AppProps /*, AppContext */ } from 'next/app';
-// import withRedux from "next-redux-wrapper";
 import {wrapper} from '../redux/store';
 import '../styles/globals.css'
 
@@ -32,14 +28,6 @@ class MyApp extends App<AppInitialProps> {
         <Component {...pageProps}/>
     );
   }
-};
-
-//makeStore function that returns a new store for every request
-// const makeStore = () => store;
-
-//withRedux wrapper that passes the store to the App Component
-// export default withRedux(makeStore)(MyApp);
-
-// export default MyApp;
+}
 
 export default wrapper.withRedux(MyApp);

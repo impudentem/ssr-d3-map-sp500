@@ -11,9 +11,10 @@ const rootReducer = combineReducers({
 export type RootState = ReturnType<typeof rootReducer>;
 
 const store = () => createStore(
-    rootReducer
+    rootReducer,
+    applyMiddleware(thunk)
 );
 
-export const wrapper = createWrapper(() => store(), {debug: true});
+export const wrapper = createWrapper(() => store());
 
 export default store;

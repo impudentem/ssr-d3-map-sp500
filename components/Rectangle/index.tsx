@@ -2,15 +2,13 @@ import React, { Component, RefObject } from 'react';
 import {connect} from 'react-redux';
 import {BaseType, select, Selection} from 'd3-selection';
 import * as config from "../../helpers/const";
-import { getColorDomains, getColorFn, getColorFunc, DOM } from "../../helpers/config";
+import { getColorFunc, DOM } from "../../helpers/config";
 import { IData, IItemsData, IGroupsData, ISubGroupsData } from "../../helpers/interfaces";
 import { setDataTooltip, clearDataTooltip } from "../../redux/actions/actionCreators";
-import store, { wrapper } from "../../redux/store";
 import * as d3 from 'd3';
 import { HierarchyNode } from "d3-hierarchy";
 
 interface RectangleProps {
-    data: IData;
     d3Params: {
         root: HierarchyNode<IData | IGroupsData | ISubGroupsData | IItemsData>, rates, colorDomains, getColor
     };
@@ -29,12 +27,6 @@ class Rectangle extends Component<RectangleProps> {
         this.mouseover = this.mouseover.bind(this);
         this.mousemove = this.mousemove.bind(this);
         this.mouseleave = this.mouseleave.bind(this);
-        // if (this.props.ref && typeof this.props.ref === "function") {
-        //     this.props.ref(this.rectRef);
-        // }
-        // this.state = {
-        //     getColor: (_rate:number):string | string[] => ""}
-        // };
     }
 
     mouseover = function(event, d): void | boolean {
@@ -82,8 +74,8 @@ class Rectangle extends Component<RectangleProps> {
             .style('fill', "rgba(0,0,0,0.2)" );
     };
 
-    draw(data): void {
-        const { root, rates, colorDomains, getColor } = this.props.d3Params;
+    draw(): void {
+        const { root, colorDomains, getColor } = this.props.d3Params;
         const svg = select(this.rectRef.current)
             .append('svg')
             .attr("width", config.width + config.margin.left + config.margin.right)
@@ -101,9 +93,6 @@ class Rectangle extends Component<RectangleProps> {
             (root);
 
         this.getColor = getColor;
-
-        // @ts-ignore
-        // this.props.dispatch(setGetColorFn(this.getColor));
 
         const zoom = d3.zoom()
             .scaleExtent([1, 4])
@@ -233,8 +222,7 @@ class Rectangle extends Component<RectangleProps> {
     }
 
     componentDidMount(): void {
-        this.draw(this.props.data);
-        // console.log("componentDidMount Rectangle", this);
+        this.draw();
     }
 
     render() {
@@ -248,9 +236,7 @@ class Rectangle extends Component<RectangleProps> {
 }
 
 const mapStateToProps = state => ({
-    tooltip: state.tooltip,
-    getColor: state.colorFn
+    tooltip: state.tooltip
 });
 
 export default connect(mapStateToProps)(Rectangle);
-// export default Rectangle;
