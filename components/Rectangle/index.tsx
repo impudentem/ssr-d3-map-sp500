@@ -30,11 +30,7 @@ class Rectangle extends Component<RectangleProps> {
     }
 
     mouseover = function(event, d): void | boolean {
-        // console.log("mouseover", event, this);
         if (d.depth === 3) {
-            // Tooltip.show();
-            // Tooltip.data(d);
-            // setDataTooltip(d);
             this.props.dispatch(setDataTooltip(d));
         }
 
@@ -58,8 +54,6 @@ class Rectangle extends Component<RectangleProps> {
 
     mouseleave = function(event, d): void | boolean {
         if (d.depth === 3) {
-            // Tooltip.hide();
-            // clearDataTooltip();
             this.props.dispatch(clearDataTooltip());
         }
         if (d.depth <= 2) return false;
@@ -99,7 +93,6 @@ class Rectangle extends Component<RectangleProps> {
             .extent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
             .translateExtent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
             .on("zoom", (event) => {
-                // console.log(event.transform);
                 for (let i = 0; i < config.stepsZoom.length; i++) {
                     let stepZoom = config.stepsZoom[i];
                     if (event.transform.k === stepZoom) {
@@ -217,8 +210,6 @@ class Rectangle extends Component<RectangleProps> {
                 let _item = this.getBBox();
                 return ((_item.x + _item.width) > d["rectWidth"]) || ((_item.y + _item.height) > d["rectHeight"]) ? "d-none" : "";
             });
-
-        console.log(colorDomains);
     }
 
     componentDidMount(): void {
