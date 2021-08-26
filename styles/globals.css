@@ -1,0 +1,106 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 0.9rem;
+}
+body {
+  margin: 5px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  white-space: normal;
+  line-break: auto;
+  font-size: 0.875rem;
+  word-wrap: break-word;
+  opacity: 0;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 5px;
+  padding: 5px 5px 0;
+}
+.tooltip .item-title, .tooltip .item-line {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.tooltip .item-title .row, .tooltip .item-line .row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tooltip .item-title {
+  margin: 0 -5px;
+  padding: 10px;
+  color: #fff;
+  text-shadow: 1px 1px black;
+}
+
+.tooltip .item-line {
+  border-bottom: 1px solid;
+  margin: 0 -5px;
+  padding: 0 10px;
+}
+
+.tooltip .item-line:last-child {
+  border-bottom: none;
+}
+.tooltip .item-title .row,
+.tooltip .item-line .row {
+  grid-gap: 15px;
+}
+.tooltip .item-title .row * {
+  font-size: 1.5rem;
+}
+.tooltip .item-title .row span {
+  font-size: 0.7rem;
+}
+.tooltip .item-chart .line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1px;
+}
+.tooltip .item-title .item-chart .line {
+  stroke: #fff;
+}
+.tooltip .item-title .row > *, .tooltip .item-line .row > * {
+  display: flex;
+}
+.tooltip .item-line .row {
+  padding: 5px 0;
+}
+[parent-id] tspan.label {
+  text-shadow: 2px 2px black;
+}
