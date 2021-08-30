@@ -1,8 +1,8 @@
 import {IObjNum, IObjStr} from "./interfaces";
 
 export const margin:IObjNum = {top: 0, right: 0, bottom: 0, left: 0};
-export const width:number = (typeof window !== 'undefined' ? window.innerWidth : 1024) - 10 - margin.left - margin.right,
-             height:number = (typeof window !== 'undefined' ? window.innerHeight : 768) - 50 - margin.top - margin.bottom;
+export const width:number = (typeof window !== 'undefined' ? window.innerWidth : 1210) - 10 - margin.left - margin.right,
+             height:number = (typeof window !== 'undefined' ? window.innerHeight : 680) - 50 - margin.top - margin.bottom;
 export const redGreenGradientXSmall:IObjStr = {
   colors: [
     '#e01427',

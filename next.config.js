@@ -50,6 +50,9 @@ const includes = generateIncludes([
 ])
 
 const config = {
+  // compilerOptions: {
+  //   baseUrl: "."
+  // },
   reactStrictMode: false,
   webpack5: false,
   webpack: (config) => {
@@ -86,6 +89,10 @@ const config = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  // api: {
+  //   bodyParser: false,
+  //   externalResolver: true,
+  // },
 }
 
 // module.exports = withTM(config)

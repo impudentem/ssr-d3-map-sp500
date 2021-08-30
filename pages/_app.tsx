@@ -2,7 +2,7 @@ import React from "react";
 import App, {AppInitialProps} from 'next/app';
 import {wrapper} from '../redux/store';
 import '../styles/globals.css'
-
+import "../styles/preloader.css";
 
 class MyApp extends App<AppInitialProps> {
   public static getInitialProps = wrapper.getInitialAppProps(store => async ({Component, ctx}) => {

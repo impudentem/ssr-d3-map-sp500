@@ -8,15 +8,20 @@ import { setDataTooltip, clearDataTooltip } from "../../redux/actions/actionCrea
 import * as d3 from 'd3';
 import { HierarchyNode } from "d3-hierarchy";
 
+
 interface RectangleProps {
     d3Params: {
-        root: HierarchyNode<IData | IGroupsData | ISubGroupsData | IItemsData>, rates, colorDomains, getColor
+        root: HierarchyNode<IData | IGroupsData | ISubGroupsData | IItemsData>,
+        rates,
+        colorDomains,
+        getColor
     };
-    updTooltip;
+    fromApi?;
+    updTooltip?;
 }
 
 class Rectangle extends Component<RectangleProps> {
-    rectRef: RefObject<HTMLDivElement>;
+    rectRef: RefObject<SVGSVGElement>;
     getColor: getColorFunc;
     zoom: number;
 
@@ -68,11 +73,15 @@ class Rectangle extends Component<RectangleProps> {
             .style('fill', "rgba(0,0,0,0.2)" );
     };
 
-    draw(): void {
+    draw(): any {
         const { root, colorDomains, getColor } = this.props.d3Params;
-        const svg = select(this.rectRef.current)
-            .append('svg')
-            .attr("width", config.width + config.margin.left + config.margin.right)
+        let body;
+
+        if (this.props.fromApi) {
+            body = select(document).select("body");
+        }
+        let svg = body ? body.append("svg") : select(this.rectRef.current);
+        svg = svg.attr("width", config.width + config.margin.left + config.margin.right)
             .attr("height", config.height + config.margin.top + config.margin.bottom)
             .append("g")
             .attr("transform", `translate(${config.margin.left}, ${config.margin.top})`);
@@ -88,35 +97,36 @@ class Rectangle extends Component<RectangleProps> {
 
         this.getColor = getColor;
 
-        const zoom = d3.zoom()
-            .scaleExtent([1, 4])
-            .extent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
-            .translateExtent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
-            .on("zoom", (event) => {
-                for (let i = 0; i < config.stepsZoom.length; i++) {
-                    let stepZoom = config.stepsZoom[i];
-                    if (event.transform.k === stepZoom) {
-                        this.zoom = i;
-                    } else if (event.transform.k > stepZoom) {
-                        this.zoom = i + 1;
+        if (!this.props.fromApi) {
+            const zoom = d3.zoom()
+                .scaleExtent([1, 4])
+                .extent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
+                .translateExtent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
+                .on("zoom", (event) => {
+                    for (let i = 0; i < config.stepsZoom.length; i++) {
+                        let stepZoom = config.stepsZoom[i];
+                        if (event.transform.k === stepZoom) {
+                            this.zoom = i;
+                        } else if (event.transform.k > stepZoom) {
+                            this.zoom = i + 1;
+                        }
                     }
+                    svg.attr("transform", event.transform)
+                });
+            svg.call(zoom);
+            d3.select("#zoom_in").on("click", () => {
+                if (this.zoom < config.stepsZoom.length) {
+                    this.zoom += 1;
+                    zoom.scaleBy(svg.transition().duration(500), config.stepsZoom[this.zoom]);
                 }
-                svg.attr("transform", event.transform)
             });
-        svg.call(zoom);
-
-        d3.select("#zoom_in").on("click", () => {
-            if (this.zoom < config.stepsZoom.length) {
-                this.zoom += 1;
-                zoom.scaleBy(svg.transition().duration(500), config.stepsZoom[this.zoom]);
-            }
-        });
-        d3.select("#zoom_out").on("click", () => {
-            if (this.zoom > 0) {
-                this.zoom = this.zoom - 1;
-                zoom.scaleTo(svg.transition().duration(500), config.stepsZoom[this.zoom]);
-            }
-        });
+            d3.select("#zoom_out").on("click", () => {
+                if (this.zoom > 0) {
+                    this.zoom = this.zoom - 1;
+                    zoom.scaleTo(svg.transition().duration(500), config.stepsZoom[this.zoom]);
+                }
+            });
+        }
 
         // @ts-ignore
         const items = svg
@@ -207,9 +217,19 @@ class Rectangle extends Component<RectangleProps> {
             .selectAll("text")
             .attr('class', function (d) {
                 // @ts-ignore
-                let _item = this.getBBox();
-                return ((_item.x + _item.width) > d["rectWidth"]) || ((_item.y + _item.height) > d["rectHeight"]) ? "d-none" : "";
+                if (this.getBBox) {
+                    let _item = this.getBBox();
+                    return ((_item.x + _item.width) > d["rectWidth"]) || ((_item.y + _item.height) > d["rectHeight"]) ? "d-none" : "";
+                } else {
+                    return "";
+                }
             });
+
+        items.call(() => d3.select(".preloader").attr("class", "preloader loaded"));
+
+        if (this.props.fromApi) {
+            return body.select("svg > g").node().innerHTML;
+        }
     }
 
     componentDidMount(): void {
@@ -217,12 +237,11 @@ class Rectangle extends Component<RectangleProps> {
     }
 
     render() {
-        return (<div>
-                <div className="Rectangle" ref={this.rectRef} />
-                <button type="button" className="btn btn-info" id="zoom_in">+</button>
-                <button type="button" className="btn btn-info" id="zoom_out">-</button>
-            </div>
-        );
+        if (this.props.fromApi) {
+            return (<svg className="Rectangle" width={config.width + config.margin.left + config.margin.right} height={config.height + config.margin.top + config.margin.bottom} ref={this.rectRef} dangerouslySetInnerHTML={{ __html: this.draw() }} />);
+        } else {
+            return (<svg className="Rectangle" ref={this.rectRef} />);
+        }
     }
 }
 
