@@ -12,7 +12,7 @@ const Share = () => {
             <meta property="og:image" content="/api/og.png" />
 
             <script type="text/javascript">
-                // window.location.replace("/");
+                window.location.replace("/");
             </script>
         </Head>
         <main className="main"/>

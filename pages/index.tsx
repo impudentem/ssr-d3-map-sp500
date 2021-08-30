@@ -22,7 +22,7 @@ const Home = ({ data, ...ext }) => {
                 <Rectangle d3Params={d3Params} updTooltip={(e) => tooltipUpd.updTooltip(e)} fromApi={false} />
                 <button type="button" className="btn btn-info" id="zoom_in">+</button>
                 <button type="button" className="btn btn-info" id="zoom_out">-</button>
-                <a className="btn btn-danger" href={"https://www.facebook.com/sharer/sharer.php?u=http://ssr-d3-map-sp500.herokuapp.com/share"} target={"_blank"}>Share FB</a>
+                <a className="btn btn-danger" href={"https://www.facebook.com/sharer/sharer.php?u=http://ssr-d3-map-sp500.herokuapp.com/share"} target={"_blank"} rel={"noreferrer"}>Share FB</a>
                 <Tooltip getColor={d3Params.getColor} attachTooltip={(e) => tooltipUpd.attachTooltip(e)} />
             </main>
             <div className={"preloader"}>
