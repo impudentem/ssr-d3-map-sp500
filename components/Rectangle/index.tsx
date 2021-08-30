@@ -189,7 +189,7 @@ class Rectangle extends Component<RectangleProps> {
             .attr('class', 'label')
             .attr('fill', d => !d.items && !d.subgroups && !d.groups ? "#fff" : "#000")
             .text( d => {
-                let _name = d.name | d.id;
+                let _name = d.name ? d.name : d.id;
                 // @ts-ignore
                 return _name ? _name.replace(/_NAME/, "") : "";
             });
