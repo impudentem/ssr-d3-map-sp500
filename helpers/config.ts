@@ -58,7 +58,14 @@ export function D3Params (data) {
             }
             return prev;
         }, []);
+        const weights = this.root.descendants().reduce((prev, curr) => {
+            if (curr.data.weight) {
+                prev.push(curr.data.weight);
+            }
+            return prev;
+        }, []);
         this.colorDomains = getColorDomains(this.rates);
+        this.weightDomains = getColorDomains(weights);
         this.getColor = getColorFn(this.colorDomains);
     }
     return new Ind3Params(data);

@@ -65,6 +65,7 @@ const Home = ({ data, ...ext }) => {
                     <div className={"cssload-inner cssload-three"}/>
                 </div>
             </div>
+
             <div className="offcanvas offcanvas-start w-auto" id="offcanvasNavbar"
                  aria-labelledby="offcanvasNavbarLabel">
                 <div className="offcanvas-header">
@@ -103,7 +104,8 @@ const Home = ({ data, ...ext }) => {
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store =>
     async (ctx: GetServerSidePropsContext) => {
-        const res = await fetch('https://api.marketviz.io/heatmap/SP500');
+        const { slug } = ctx.query;
+        const res = await fetch(`https://api.marketviz.io/heatmap/SP500?performance=${slug[0]}`);
         const data = await res.json();
 
         return { props: { data } }

@@ -14,7 +14,8 @@ interface RectangleProps {
         root: HierarchyNode<IData | IGroupsData | ISubGroupsData | IItemsData>,
         rates,
         colorDomains,
-        getColor
+        getColor,
+        weightDomains
     };
     fromApi?;
     updTooltip?;
@@ -74,7 +75,7 @@ class Rectangle extends Component<RectangleProps> {
     };
 
     draw(): any {
-        const { root, colorDomains, getColor } = this.props.d3Params;
+        const { root, weightDomains, colorDomains, getColor } = this.props.d3Params;
         let body;
 
         if (this.props.fromApi) {
@@ -96,10 +97,17 @@ class Rectangle extends Component<RectangleProps> {
             (root);
 
         this.getColor = getColor;
+        const fontSize = d3.scaleLinear().interpolate((a, b) => (t) => a * (1 - t*t*t) + b * t*t*t)
+            .domain(weightDomains)
+            .range(config.rangeFontSize);
 
         if (!this.props.fromApi) {
             const zoom = d3.zoom()
                 .scaleExtent([1, 4])
+                // .wheelDelta((e) => {
+                //     console.log(e);
+                //     return -0.5 * e.deltaY;
+                // })
                 .extent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
                 .translateExtent([[config.margin.left, config.margin.top], [config.margin.left + config.width, config.margin.top + config.height]])
                 .on("zoom", (event) => {
@@ -179,8 +187,13 @@ class Rectangle extends Component<RectangleProps> {
         items
             .append('text')
             .attr("clip-path", d => d["clipUid"])
-            .attr('dx', d => d.depth === 1 ? 6 : 2)
-            .attr('dy', () => 15)
+            .attr('style', (d) => {
+                return d.depth <= 2 ? null : `font-size: ${fontSize(d.data.weight)}em`;
+            })
+            .attr('dx', d => d.depth <= 2 ? 6 : 2)
+            .attr('dy', (d) => {
+                return d.depth <= 2 ? 15 : fontSize(d.data.weight) * 12
+            })
             .selectAll('tspan')
             .data(d => {
                 return [d.data];
@@ -198,8 +211,11 @@ class Rectangle extends Component<RectangleProps> {
         items
             .append('text')
             .attr("clip-path", d => d["clipUid"])
+            .attr('style', (d) => {
+                return `font-size: ${fontSize(d.data.weight)}em`;
+            })
             .attr('dx', () => 2)
-            .attr('dy', () => 28)
+            .attr('dy', (d) => fontSize(d.data.weight) * 26)
             .selectAll('tspan')
             .data(d => {
                 if (!d.children) {

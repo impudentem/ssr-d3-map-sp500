@@ -83,3 +83,4 @@ export const redGreenGradient:IObjStr = {
   nullColor: '#2f323d',
 };
 export const stepsZoom:number[] = [1, 1.2, 1.6, 2, 2.4, 2.8, 3.4, 4];
+export const rangeFontSize:number[] = [0.5, 2.5];
