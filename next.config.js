@@ -89,6 +89,19 @@ const config = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, max-age=1800',
+          },
+        ],
+      },
+    ]
+  },
   // api: {
   //   bodyParser: false,
   //   externalResolver: true,
