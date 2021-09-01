@@ -70,8 +70,8 @@ const Home = ({ data, query, ...ext }) => {
                         <p className="m-0"><small>Use mouse wheel to zoom in and out. Drag zoomed map to pan it.</small></p>
                     </div>
                     <div className="col-md-auto d-flex">
-                        {legendArr.map((leg) => (
-                            <div className="p-2 pe-3 ps-3" style={{backgroundColor: d3Params.getColor(leg)}} data-bs-toggle="tooltip" data-bs-placement="top" title={"Color indicates monthly stock performance in percent. Based on the color you can identify losers (red), neutral (black), and gainers (green)."}>
+                        {legendArr.map((leg, index) => (
+                            <div key={index} className="p-2 pe-3 ps-3" style={{backgroundColor: d3Params.getColor(leg)}} data-bs-toggle="tooltip" data-bs-placement="top" title={"Color indicates monthly stock performance in percent. Based on the color you can identify losers (red), neutral (black), and gainers (green)."}>
                                 <p className="m-0"><small className="text-white">{`${leg}%`}</small></p>
                             </div>
                         ))}
