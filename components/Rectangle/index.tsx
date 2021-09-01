@@ -192,7 +192,7 @@ class Rectangle extends Component<RectangleProps> {
             })
             .attr('dx', d => d.depth <= 2 ? 6 : 2)
             .attr('dy', (d) => {
-                return d.depth <= 2 ? 15 : fontSize(d.data.weight) * 12
+                return d.depth <= 2 ? 15 : d.data.weight ? fontSize(d.data.weight) * 12 : 0;
             })
             .selectAll('tspan')
             .data(d => {

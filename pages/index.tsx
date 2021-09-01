@@ -3,12 +3,18 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Rectangle from '../components/Rectangle';
 import Tooltip from '../components/Tooltip';
+import Offcanvas from '../components/Offcanvas';
 import { wrapper } from "../redux/store";
 import { D3Params, TooltipUpd } from "../helpers/config";
 
 
-const Home = ({ data, ...ext }) => {
+const Home = ({ data, query, ...ext }) => {
     const d3Params = D3Params(data);
+    let legendArr = new Array(7);
+    for (let idx = 0; idx < legendArr.length; idx++) {
+        let addInt = d3Params.colorDomains[1] / 3;
+        legendArr[idx] = d3Params.colorDomains[0] + addInt * idx;
+    }
     const tooltipUpd = TooltipUpd();
     return (
         <div>
@@ -27,7 +33,7 @@ const Home = ({ data, ...ext }) => {
                             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                         <span className="navbar-toggler-icon" />
                     </button>
-                    <span className="navbar-brand mb-0 h1">Navbar</span>
+                    <span className="navbar-brand mb-0 h1">{data.title ? data.title : 'Navbar'}</span>
                     <div className="btn-group ms-auto me-3" role="group" aria-label="Zoom">
                         <button type="button" className="btn btn-outline-info" id="zoom_in"><i className="bi bi-zoom-in"/></button>
                         <button type="button" className="btn btn-outline-info" id="zoom_out"><i className="bi bi-zoom-out"/></button>
@@ -58,6 +64,20 @@ const Home = ({ data, ...ext }) => {
                 <Rectangle d3Params={d3Params} updTooltip={(e) => tooltipUpd.updTooltip(e)} fromApi={false} />
                 <Tooltip getColor={d3Params.getColor} attachTooltip={(e) => tooltipUpd.attachTooltip(e)} />
             </main>
+            <div className="container-fluid">
+                <div className="row align-items-center">
+                    <div className="col">
+                        <p className="m-0"><small>Use mouse wheel to zoom in and out. Drag zoomed map to pan it.</small></p>
+                    </div>
+                    <div className="col-md-auto d-flex">
+                        {legendArr.map((leg) => (
+                            <div className="p-2 pe-3 ps-3" style={{backgroundColor: d3Params.getColor(leg)}} data-bs-toggle="tooltip" data-bs-placement="top" title={"Color indicates monthly stock performance in percent. Based on the color you can identify losers (red), neutral (black), and gainers (green)."}>
+                                <p className="m-0"><small className="text-white">{`${leg}%`}</small></p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
             <div className={"preloader"}>
                 <div className={"preloader-orbit-loading"}>
                     <div className={"cssload-inner cssload-one"}/>
@@ -65,35 +85,9 @@ const Home = ({ data, ...ext }) => {
                     <div className={"cssload-inner cssload-three"}/>
                 </div>
             </div>
-            <div className="offcanvas offcanvas-start w-auto" id="offcanvasNavbar"
-                 aria-labelledby="offcanvasNavbarLabel">
-                <div className="offcanvas-header">
-                    <h5 className="offcanvas-title me-5" id="offcanvasNavbarLabel">Performance select</h5>
-                    <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" />
-                </div>
-                <div className="offcanvas-body">
-                    <ul className="navbar-nav nav-pills justify-content-end flex-grow-1 pe-3">
-                        <li className="nav-item mb-2">
-                            <a className="nav-link text-center active" aria-current="page" href="/">1 day performance</a>
-                        </li>
-                        <li className="nav-item mb-2">
-                            <a className="nav-link text-center" href="/1week">1 week performance</a>
-                        </li>
-                        <li className="nav-item mb-2">
-                            <a className="nav-link text-center" href="/1month">1 month performance</a>
-                        </li>
-                        <li className="nav-item mb-2">
-                            <a className="nav-link text-center" href="/3month">3 month performance</a>
-                        </li>
-                        <li className="nav-item mb-2">
-                            <a className="nav-link text-center" href="/6month">6 month performance</a>
-                        </li>
-                        <li className="nav-item mb-2">
-                            <a className="nav-link text-center" href="/1year">1 year performance</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
+            <Offcanvas slug={''}/>
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
                     crossOrigin="anonymous" />
