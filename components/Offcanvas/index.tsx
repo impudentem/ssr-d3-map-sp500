@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Link from 'next/Link';
+
 
 interface OffcanvasProps {
     slug?: string
@@ -54,12 +54,7 @@ class Offcanvas extends Component<OffcanvasProps> {
                     <ul className="navbar-nav nav-pills justify-content-end flex-grow-1 pe-3">
                         {this.navItems.map((navItem, index) => (
                             <li className="nav-item mb-2" key={index}>
-                                <Link href={{
-                                    pathname: '/[slug]',
-                                    query: { slug: navItem.href },
-                                }}>
-                                    <a className={`nav-link text-center ${this.props.slug === navItem.href ? 'active' : ''}`} aria-current="page">{navItem.name}</a>
-                                </Link>
+                                <a href={`/${navItem.href}`} className={`nav-link text-center ${this.props.slug === navItem.href ? 'active' : ''}`} aria-current="page">{navItem.name}</a>
                             </li>
                         ))}
                     </ul>
