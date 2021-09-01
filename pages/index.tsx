@@ -1,6 +1,7 @@
 import React from "react";
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import Script from 'next/script';
 import Rectangle from '../components/Rectangle';
 import Tooltip from '../components/Tooltip';
 import Offcanvas from '../components/Offcanvas';
@@ -88,7 +89,7 @@ const Home = ({ data, query, ...ext }) => {
 
             <Offcanvas slug={''}/>
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
                     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
                     crossOrigin="anonymous" />
         </div>
