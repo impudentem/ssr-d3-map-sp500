@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import App, {AppInitialProps} from 'next/app';
 import {wrapper} from '../redux/store';
-import '../styles/globals.css'
+import {SSRProvider} from "@restart/ui/ssr";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../styles/globals.css';
 import "../styles/preloader.css";
 
 class MyApp extends App<AppInitialProps> {
@@ -25,7 +28,9 @@ class MyApp extends App<AppInitialProps> {
     const {Component, pageProps} = this.props;
 
     return (
-        <Component {...pageProps}/>
+        <SSRProvider>
+          <Component {...pageProps}/>
+        </SSRProvider>
     );
   }
 }

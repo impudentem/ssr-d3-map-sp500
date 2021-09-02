@@ -215,7 +215,7 @@ class Rectangle extends Component<RectangleProps> {
                 return `font-size: ${fontSize(d.data.weight)}em`;
             })
             .attr('dx', () => 2)
-            .attr('dy', (d) => fontSize(d.data.weight) * 26)
+            .attr('dy', (d) => d.data.weight ? fontSize(d.data.weight) * 26 : 0)
             .selectAll('tspan')
             .data(d => {
                 if (!d.children) {

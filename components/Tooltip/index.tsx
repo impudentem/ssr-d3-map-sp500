@@ -106,7 +106,7 @@ class Tooltip extends Component<TooltipProps> {
 
     render() {
         return (
-            <div className="tooltip" ref={this.tooltipRef} />
+            <div className="d3-tooltip" ref={this.tooltipRef} />
         );
     }
 }

@@ -19,7 +19,7 @@ a {
   box-sizing: border-box;
 }
 
-.tooltip {
+.d3-tooltip {
   position: absolute;
   z-index: 1070;
   display: block;
@@ -46,14 +46,14 @@ a {
   border-radius: 5px;
   padding: 5px 5px 0;
 }
-.tooltip .item-title, .tooltip .item-line {
+.d3-tooltip .item-title, .d3-tooltip .item-line {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
 }
 
-.tooltip .item-title .row, .tooltip .item-line .row {
+.d3-tooltip .item-title .row, .d3-tooltip .item-line .row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -61,44 +61,44 @@ a {
   align-items: center;
 }
 
-.tooltip .item-title {
+.d3-tooltip .item-title {
   margin: 0 -5px;
   padding: 10px;
   color: #fff;
   text-shadow: 1px 1px black;
 }
 
-.tooltip .item-line {
+.d3-tooltip .item-line {
   border-bottom: 1px solid;
   margin: 0 -5px;
   padding: 0 10px;
 }
 
-.tooltip .item-line:last-child {
+.d3-tooltip .item-line:last-child {
   border-bottom: none;
 }
-.tooltip .item-title .row,
-.tooltip .item-line .row {
+.d3-tooltip .item-title .row,
+.d3-tooltip .item-line .row {
   grid-gap: 15px;
 }
-.tooltip .item-title .row * {
+.d3-tooltip .item-title .row * {
   font-size: 1.5rem;
 }
-.tooltip .item-title .row span {
+.d3-tooltip .item-title .row span {
   font-size: 0.7rem;
 }
-.tooltip .item-chart .line {
+.d3-tooltip .item-chart .line {
   fill: none;
   stroke: #000;
   stroke-width: 1px;
 }
-.tooltip .item-title .item-chart .line {
+.d3-tooltip .item-title .item-chart .line {
   stroke: #fff;
 }
-.tooltip .item-title .row > *, .tooltip .item-line .row > * {
+.d3-tooltip .item-title .row > *, .d3-tooltip .item-line .row > * {
   display: flex;
 }
-.tooltip .item-line .row {
+.d3-tooltip .item-line .row {
   padding: 5px 0;
 }
 [parent-id] tspan.label {

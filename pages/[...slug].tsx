@@ -1,12 +1,12 @@
 import React from "react";
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Script from 'next/script';
 import Rectangle from '../components/Rectangle';
 import Tooltip from '../components/Tooltip';
-import Offcanvas from '../components/Offcanvas';
+import Dropdown from '../components/Dropdown';
 import { wrapper } from "../redux/store";
 import { D3Params, TooltipUpd } from "../helpers/config";
+import {OverlayTrigger, Tooltip as BSTooltip} from "react-bootstrap";
 
 
 const Home = ({ data, query, ...ext }) => {
@@ -17,25 +17,19 @@ const Home = ({ data, query, ...ext }) => {
         legendArr[idx] = d3Params.colorDomains[0] + addInt * idx;
     }
     const tooltipUpd = TooltipUpd();
+
     return (
         <div>
             <Head>
                 <title>D3 SP500 (NextJS)</title>
                 <link rel="icon" href={"/favicon.ico"} />
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-                      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-                      crossOrigin="anonymous" />
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
             </Head>
 
             <nav className="navbar navbar-light bg-light">
                 <div className="container-fluid justify-content-start">
-                    <button className="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <span className="navbar-brand mb-0 h1">{data.title ? data.title : 'Navbar'}</span>
-                    <div className="btn-group ms-auto me-3" role="group" aria-label="Zoom">
+                    <span className="fs-4 navbar-brand mb-0 h1">{data.title ? data.title : 'Navbar'}</span>
+                    <Dropdown slug={query.slug}/>
+                    <div className="btn-group me-3" role="group" aria-label="Zoom">
                         <button type="button" className="btn btn-outline-info" id="zoom_in"><i className="bi bi-zoom-in"/></button>
                         <button type="button" className="btn btn-outline-info" id="zoom_out"><i className="bi bi-zoom-out"/></button>
                     </div>
@@ -68,13 +62,13 @@ const Home = ({ data, query, ...ext }) => {
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col">
-                        <p className="m-0"><small>Use mouse wheel to zoom in and out. Drag zoomed map to pan it.</small></p>
+                        <p className="align-items-center d-flex m-0"><i className="bi bi-info-circle-fill me-1 fs-5"/><small>Use mouse wheel to zoom in and out. Drag zoomed map to pan it.</small></p>
                     </div>
                     <div className="col-md-auto d-flex">
                         {legendArr.map((leg, index) => (
-                            <div key={index} className="p-2 pe-3 ps-3" style={{backgroundColor: d3Params.getColor(leg)}} data-bs-toggle="tooltip" data-bs-placement="top" title={"Color indicates monthly stock performance in percent. Based on the color you can identify losers (red), neutral (black), and gainers (green)."}>
-                                <p className="m-0"><small className="text-white">{`${leg}%`}</small></p>
-                            </div>
+                            <OverlayTrigger key={index} placement="top" overlay={<BSTooltip id={`legend-tooltip-${index}`}>Color indicates monthly stock performance in percent. Based on the color you can identify losers (red), neutral (black), and gainers (green).</BSTooltip>}>
+                                <p className="m-0 p-2 pe-3 ps-3" style={{backgroundColor: d3Params.getColor(leg)}}><small className="text-white">{`${leg}%`}</small></p>
+                            </OverlayTrigger>
                         ))}
                     </div>
                 </div>
@@ -86,11 +80,6 @@ const Home = ({ data, query, ...ext }) => {
                     <div className={"cssload-inner cssload-three"}/>
                 </div>
             </div>
-
-            <Offcanvas slug={query.slug}/>
-            <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-                    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-                    crossOrigin="anonymous" />
         </div>
     );
 };
